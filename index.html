@@ -54,6 +54,10 @@ function spawnBlock() {
 function update() {
   if (gameOver) return;
 
+  // 一定時間ごとにも生成
+  if (Math.random() < 0.05) spawnBlock();
+  if (gameOver) return;
+
   // 移動
   if (keys["ArrowLeft"]) player.x -= 5;
   if (keys["ArrowRight"]) player.x += 5;
@@ -82,19 +86,25 @@ function update() {
   document.getElementById("score").textContent = "スコア: " + score;
 
   // 一定確率で生成
-  if (Math.random() < 0.03) spawnBlock();
+  // 出現率アップ（わかりやすくする）
+  if (Math.random() < 0.08) spawnBlock();
 }
 
 function draw() {
   ctx.clearRect(0, 0, 400, 600);
 
-  // プレイヤー
-  ctx.fillStyle = "cyan";
-  ctx.fillRect(player.x, player.y, player.w, player.h);
-
   // ブロック
   ctx.fillStyle = "red";
   blocks.forEach(b => ctx.fillRect(b.x, b.y, b.w, b.h));
+
+  // プレイヤー（上に描画して見やすく）
+  ctx.fillStyle = "cyan";
+  ctx.fillRect(player.x, player.y, player.w, player.h);
+
+  // 枠線つけて見やすく
+  ctx.strokeStyle = "white";
+  ctx.lineWidth = 2;
+  ctx.strokeRect(player.x, player.y, player.w, player.h);
 
   // ゲームオーバー表示
   if (showMessage) {
@@ -131,3 +141,6 @@ gameLoop();
 
 </body>
 </html>
+
+
+ 
